@@ -12,6 +12,7 @@ const {
 
 const express = require('express');
 const app = express();
+app.use(express.json());
 
 app.get('/api/customers', async(req, res, next)=> {
   try {
@@ -40,9 +41,9 @@ app.get('/api/reservations', async(req, res, next)=> {
   }
 });
 
-app.post('/api/customers/:id/reservations', async(req, res, next)=> {
+app.post('/api/customers/:customer_id/reservations', async(req, res, next)=> {
   try {
-    res.status(201).send(await createReservation(req.body));
+    res.status(201).send(await createReservation({...req.body,...req.params}));
   }
   catch(ex){
     next(ex);
